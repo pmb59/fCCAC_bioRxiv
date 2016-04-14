@@ -168,7 +168,7 @@ fCCAr <- function(peaks, bigwigs, labels, splines=10, nbins=100, ncan=5 , tf=c()
  		
 
 		#print(head(ggData3))
-		p2 <- qplot(pair, S, data=ggData3, geom="bar", stat="identity", fill=factor(pair),width=.6)  + coord_flip()  + ylim(0,100) + theme_classic()   +  theme(legend.position='none', text = element_text(size=10) ) + ylab("F(%)") + xlab("")  + scale_fill_manual(values = rev(ggData3$CL) ) #, fill=factor(Spair) + scale_fill_hue(l=60)
+		p2 <- qplot(pair, S, data=ggData3, geom="bar", stat="identity", fill=factor(pair),width=.6)  + coord_flip()  + ylim(0,100) + theme_classic()   +  theme(legend.position='none', text = element_text(size=10) ) + ylab("F(%)") + xlab("")  + scale_fill_manual(values = rev(ggData3$CL) )  + geom_hline(yintercept = 100, colour="red", linetype = "longdash")  #, fill=factor(Spair) + scale_fill_hue(l=60)
 
 
 		print("Saving fCCAr.pdf...")
