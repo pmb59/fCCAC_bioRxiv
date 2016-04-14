@@ -1,19 +1,18 @@
 ## Main function
-
-                 
+                
 fCCAr <- function(peaks, bigwigs, labels, splines=10, nbins=100, ncan=5 , tf=c(), main="", bar=NULL ){    
 		
 	######### Parameter description ###################################
 	#
 	# peaks: BED file. Column 1: chr, Column 2: start, Column 3: end (REQUIRED)
 	# bigwigs: a vector of characters with the path to bigwigs files (REQUIRED)
-	# labels: IDs for each sample. Replicates should have the same label and BE number-ORDERED(vector of characters, REQUIRED)
+	# labels: IDs for each sample. Replicates should have the same label and be number-ORDERED(vector of characters, REQUIRED)
 	# splines: number of equidistant cubic B-splines to smooth the data and canonical variate weight functions (default, 15)
 	# nbins: single ‘integer’ value denoting how many bins there should be for each window (genomation, BioC) (default, 100)
 	# ncan: number of canonical components to report in the results. Cannot be higher than number of splines (default, 15)
-	# tf: plot results involving only this TF or replicate (character) (default, empty vector)
-	# main: title of the plot (fCCAr.pdf) (default, No title)
-	# bar: In the barplot, plot only first 'bar' interaction after ranking by F-value (default, NULL)
+	# tf: plot results involving only this TF or TF-replicate (character) (default, empty vector)
+	# main: title of the plot in fCCAr.pdf (default, No title)
+	# bar: In the barplot, plot only first 'bar' interactions after ranking by F-value (default, NULL)
 	# 
 	##################################################################
 
