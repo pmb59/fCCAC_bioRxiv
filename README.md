@@ -1,4 +1,4 @@
-# fCCAr
+# fCCAC
 
 <h5> Dependencies </h5>
 - <a href="http://cran.r-project.org/web/packages/fda/index.html"> R package fda </a> 
