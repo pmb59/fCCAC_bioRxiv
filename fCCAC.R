@@ -1,6 +1,6 @@
 ## Main function
                 
-fCCAr <- function(peaks, bigwigs, labels, splines=10, nbins=100, ncan=5 , tf=c(), main="", bar=NULL ){    
+fCCAC <- function(peaks, bigwigs, labels, splines=10, nbins=100, ncan=5 , tf=c(), main="", bar=NULL ){    
 		
 	######### Parameter description ###################################
 	#
