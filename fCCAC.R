@@ -75,14 +75,13 @@ fCCAC <- function(peaks, bigwigs, labels, splines=10, nbins=100, ncan=5 , tf=c()
 		length(fdaData)
 
 
-
 		#Prepare Data for fCCA
 
 		x <- list()                 		# list to store output of cca.fd
-		scc <- c()  						# squared Canon. Corr.
-		sccM <- c() 						# MAX squared Canon. Corr.
-		pair <- c() 						# labeling
-		Spair <- c() 						# labeling for S
+		scc <- c()  				# squared Canon. Corr.
+		sccM <- c() 				# MAX squared Canon. Corr.
+		pair <- c() 				# labeling
+		Spair <- c() 				# labeling for S
 		co <- combn(x=c(new_labels), m=2)  	# all possible pairwise combinations
 
 
@@ -101,7 +100,7 @@ fCCAC <- function(peaks, bigwigs, labels, splines=10, nbins=100, ncan=5 , tf=c()
 	
 	
 		w = 1/ (1:ncan)
-		Ma <-  sum(w) 	# maximum possible value for w
+		Ma <-  sum(w) 		# maximum possible value for w
 		S <- c()  		# weighted sums
 
 		for (i in 1:ncol(co)) {
@@ -115,7 +114,7 @@ fCCAC <- function(peaks, bigwigs, labels, splines=10, nbins=100, ncan=5 , tf=c()
 			x[[i]] = cca.fd(fdobj1=fdaData[[file1]], fdobj2=fdaData[[file2]], ncan = ncan, ccafdPar1=fdPar(bspl, 0, 0), ccafdPar2=fdPar(bspl,0, 0), centerfns=TRUE)
 	
 		}
-    	#NCAN calculated in 'cca.fd' is always the number of splines
+    		#NCAN calculated in 'cca.fd' is always the number of splines
 		#plot.cca.fd(x)
 
 
@@ -140,11 +139,8 @@ fCCAC <- function(peaks, bigwigs, labels, splines=10, nbins=100, ncan=5 , tf=c()
 
 
 		#Colormap
-		#colfunc <- colorRampPalette(c("cyan","blue", "black","darkred","red" ,"green" )) 
-  		#colfunc <- colorRampPalette(c("#132B43","#56B1F7"))
   		colfunc <- colorRampPalette(brewer.pal(10, "Spectral"))
 
-  
 
 		#ggplot2
 		ggData <- data.frame(scc = scc, pair = pair, variables = rep(1:ncan, ncol(co)), sccM = sccM)	
@@ -165,7 +161,7 @@ fCCAC <- function(peaks, bigwigs, labels, splines=10, nbins=100, ncan=5 , tf=c()
 		if ( INB != TRUE ) {  temp <- ggData3$CL[ c( 1:bar[1],  (length(ggData3$CL)-bar[2]+1):length(ggData3$CL)    )]	 } 
 		#temp <- ggData3$CL[1:bar]
 		#temp <- ggData3$CL[ c( 1:bar[1],  (length(ggData3$CL)-bar[2]+1):length(ggData3$CL)    )]		
-        ggData3 <- ggData3[order(-ggData3$S),]
+        	ggData3 <- ggData3[order(-ggData3$S),]
 		ggDataTXT <- ggData3
 
 		if ( INB == TRUE ) {  ggData3 <- ggData3[1:bar,]  }
@@ -175,7 +171,7 @@ fCCAC <- function(peaks, bigwigs, labels, splines=10, nbins=100, ncan=5 , tf=c()
  		ggData3$CL <- temp
 		
 		#print(head(ggData3))
-		p2 <- qplot(pair, S, data=ggData3, geom="bar", stat="identity", fill=factor(sccM),width=.6)  + coord_flip()  + ylim(0,100) + theme_classic()   +  theme(legend.position='none', text = element_text(size=10) ) + ylab("F(%)") + xlab("")  + scale_fill_manual(values = rev(ggData3$CL) ) + geom_hline(yintercept = 100, colour="red", linetype = "longdash")  #, fill=factor(Spair) + scale_fill_hue(l=60)
+		p2 <- qplot(pair, S, data=ggData3, geom="bar", stat="identity", fill=factor(sccM),width=.6)  + coord_flip()  + ylim(0,100) + theme_classic()   +  theme(legend.position='none', text = element_text(size=10) ) + ylab("F(%)") + xlab("")  + scale_fill_manual(values = rev(ggData3$CL) ) + geom_hline(yintercept = 100, colour="red", linetype = "longdash") 
 
 
 		print("Saving fCCAC.pdf...")
@@ -190,7 +186,6 @@ fCCAC <- function(peaks, bigwigs, labels, splines=10, nbins=100, ncan=5 , tf=c()
 		print("Done...")
 		
 		rm(temp)
-		#return(ggData3$S)
 	
 	}
 }
