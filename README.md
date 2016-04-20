@@ -1,4 +1,4 @@
-# fCCAC
+# fCCAC: functional Canonical Correlation Analysis to evaluate Covariability between nucleic acid sequencing datasets
 
 <h5> Dependencies </h5>
 - <a href="http://cran.r-project.org/web/packages/fda/index.html"> R package fda </a> 
