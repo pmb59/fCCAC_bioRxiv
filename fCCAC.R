@@ -1,5 +1,5 @@
-## Main function
-                
+
+                 
 fCCAC <- function(peaks, bigwigs, labels, splines=10, nbins=100, ncan=5 , tf=c(), main="", bar=NULL ){    
 		
 	######### Parameter description ###################################
@@ -12,7 +12,7 @@ fCCAC <- function(peaks, bigwigs, labels, splines=10, nbins=100, ncan=5 , tf=c()
 	# ncan: number of canonical components to report in the results. Cannot be higher than number of splines (default, 15)
 	# tf: plot results involving only this TF or TF-replicate (character) (default, empty vector)
 	# main: title of the plot in fCCAr.pdf (default, No title)
-	# bar: In the barplot, plot only first 'bar' interactions after ranking by F-value (default, NULL)
+	# bar: In the barplot, plot only first 'bar[1]' and last 'bar[2]' interactions after ranking by F-value (default, NULL)
 	# 
 	##################################################################
 
@@ -27,7 +27,7 @@ fCCAC <- function(peaks, bigwigs, labels, splines=10, nbins=100, ncan=5 , tf=c()
 	
 	#Read genomic regions in BED format
 	print("Reading peaks...")
-	peaks <- readGeneric(file=peaks, chr=1, start=2, end=3) #[1:1000]  #readBed
+	peaks <- readGeneric(file=peaks, chr=1, start=2, end=3) #[1:500]  #readBed
 	
     
     if (ncan > splines | ncan > length(peaks) ){ print("ncan should not be higher than the number of splines or peaks. Please lower the value of ncan.")   }
@@ -136,7 +136,7 @@ fCCAC <- function(peaks, bigwigs, labels, splines=10, nbins=100, ncan=5 , tf=c()
 		}
 
 
-		if ( is.null(bar) == TRUE ) {bar <- ncol(co) }  ##barplot(100* S/Ma, ylim= c(0,100)  )
+		# if ( is.null(bar) == TRUE ) {bar <- ncol(co) }  ##barplot(100* S/Ma, ylim= c(0,100)  )
 
 
 		#Colormap
@@ -149,8 +149,8 @@ fCCAC <- function(peaks, bigwigs, labels, splines=10, nbins=100, ncan=5 , tf=c()
 		#ggplot2
 		ggData <- data.frame(scc = scc, pair = pair, variables = rep(1:ncan, ncol(co)), sccM = sccM)	
 		ggData <- transform(ggData,  pair = reorder(pair, sccM))
-		p1 <- ggplot(ggData, aes(x=variables, y=scc, group=pair))  + geom_line(aes(colour = pair)) + ylim(0,1)  + theme_classic() +  theme(legend.position='none', plot.title = element_text(lineheight=.8, face="bold")) + xlab("Canonical variable (k)") + ylab( expression(Squared~canonical~correlation~(R[k] ^{2}) ) )  +   geom_point(size=0.9, shape=5, aes(colour=pair)) + scale_x_continuous(breaks=1:ncan) + scale_colour_manual(values = colfunc(ncol(co))) + ggtitle(main) # + annotate("text", size=3, x = 5, y = 0.69, label = "PHF8", colour=rev(colfunc(ncol(co)))[3] )  + annotate("text", size=3, x = 3, y = 0.55, label = "DPY30", colour=rev(colfunc(ncol(co)))[6] )      ###+ scale_y_log10()  + scale_x_log10() # + scale_y_log10() + scale_colour_hue(l=60)
-		ggData <- ggData[which(ggData$variables==1), ]
+		p1 <- ggplot(ggData, aes(x=variables, y=scc, group=pair))  + geom_line(aes(colour = pair)) + ylim(0,1)  + theme_classic() +  theme(legend.position='none', plot.title = element_text(lineheight=.8, face="bold")) + xlab("Canonical variable (k)") + ylab( expression(Squared~canonical~correlation~(R[k] ^{2}) ) )  +   geom_point(size=0.9, shape=5, aes(colour=pair)) + scale_x_continuous(breaks=1:ncan) + scale_colour_manual(values = colfunc(ncol(co))) + ggtitle(main) 
+		ggData <- ggData[which(ggData$variables==1), ]		
 		ggData$CL <- rev( colfunc(ncol(co))  )
 
 
@@ -159,26 +159,33 @@ fCCAC <- function(peaks, bigwigs, labels, splines=10, nbins=100, ncan=5 , tf=c()
 
 		ggData3 <- merge(x=ggData2, y=ggData, by='pair',  sort = FALSE )
 
-		temp <- ggData3$CL[1:bar]
-		ggData3 <- ggData3[order(-ggData3$S),]
+
+		INB = is.null(bar)
+		if ( INB == TRUE ) {  bar <- ncol(co);  temp <- ggData3$CL[1:bar]  } #all
+		if ( INB != TRUE ) {  temp <- ggData3$CL[ c( 1:bar[1],  (length(ggData3$CL)-bar[2]+1):length(ggData3$CL)    )]	 } 
+		#temp <- ggData3$CL[1:bar]
+		#temp <- ggData3$CL[ c( 1:bar[1],  (length(ggData3$CL)-bar[2]+1):length(ggData3$CL)    )]		
+        ggData3 <- ggData3[order(-ggData3$S),]
 		ggDataTXT <- ggData3
 
-		ggData3 <- ggData3[1:bar,]
+		if ( INB == TRUE ) {  ggData3 <- ggData3[1:bar,]  }
+		if ( INB != TRUE ) {  ggData3 <- ggData3[c(1:bar[1],  (length(ggData3$CL)-bar[2]+1):length(ggData3$CL)  ), ]	}
+		#ggData3 <- ggData3[1:bar,]
+		#ggData3 <- ggData3[c(1:bar[1],  (length(ggData3$CL)-bar[2]+1):length(ggData3$CL)  ), ]	
  		ggData3$CL <- temp
- 		
-
+		
 		#print(head(ggData3))
-		p2 <- qplot(pair, S, data=ggData3, geom="bar", stat="identity", fill=factor(pair),width=.6)  + coord_flip()  + ylim(0,100) + theme_classic()   +  theme(legend.position='none', text = element_text(size=10) ) + ylab("F(%)") + xlab("")  + scale_fill_manual(values = rev(ggData3$CL) )  + geom_hline(yintercept = 100, colour="red", linetype = "longdash")  #, fill=factor(Spair) + scale_fill_hue(l=60)
+		p2 <- qplot(pair, S, data=ggData3, geom="bar", stat="identity", fill=factor(sccM),width=.6)  + coord_flip()  + ylim(0,100) + theme_classic()   +  theme(legend.position='none', text = element_text(size=10) ) + ylab("F(%)") + xlab("")  + scale_fill_manual(values = rev(ggData3$CL) ) + geom_hline(yintercept = 100, colour="red", linetype = "longdash")  #, fill=factor(Spair) + scale_fill_hue(l=60)
 
 
-		print("Saving fCCAr.pdf...")
-		pdf("fCCAr.pdf", height=6, width=3.5)	
+		print("Saving fCCAC.pdf...")
+		pdf("fCCAC.pdf", height=6, width=3.5)	
 		multiplot(p1, p2, cols=1)
 		dev.off()
 		
-		print("Saving fCCAr.txt...")
+		print("Saving fCCAC.txt...")
 		colnames(ggDataTXT) <- c("samples","F","squ_can_corr_k_1","k","squ_can_corr_k_1","color"	)
-		write.table(x=ggDataTXT[,c(1,2,4,5,6)] , file = "fCCAr.txt", append = FALSE, quote = F, sep = "\t", row.names = F, col.names = T)
+		write.table(x=ggDataTXT[,c(1,2,4,5,6)] , file = "fCCAC.txt", append = FALSE, quote = F, sep = "\t", row.names = F, col.names = T)
 	
 		print("Done...")
 		
@@ -187,3 +194,5 @@ fCCAC <- function(peaks, bigwigs, labels, splines=10, nbins=100, ncan=5 , tf=c()
 	
 	}
 }
+
+
