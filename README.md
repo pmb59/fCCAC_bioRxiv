@@ -7,3 +7,7 @@
 - <a href="http://bioconductor.org/packages/release/bioc/html/genomation.html"> R package genomation </a>  
 - <a href="http://cran.r-project.org/web/packages/RColorBrewer/index.html"> R package RColorBrewer </a> 
 - <a href="http://cran.r-project.org/web/packages/gplots/index.html"> R package ggplots </a> 
+
+Manuscript in preparation: 
+
+Madrigal et al. <a href="http://dx.doi.org/10.1186/s13040-015-0051-7"> fCCAC: functional canonical correlation analysis to evaluate covariance between nucleic acid sequencing datasets.</a> 
