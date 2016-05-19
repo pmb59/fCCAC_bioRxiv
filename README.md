@@ -8,6 +8,6 @@
 - <a href="http://cran.r-project.org/web/packages/RColorBrewer/index.html"> R package RColorBrewer </a> 
 - <a href="http://cran.r-project.org/web/packages/gplots/index.html"> R package ggplots </a> 
 
-A manuscript in preparation. Detailed methodology and examples can be found in the Suppl. Information of the publication.
+A manuscript is in preparation. Detailed methodology and examples can be found in the Suppl. Information.
 
 Madrigal, P. <a href="http://github.com/pmb59/fCCAC"> fCCAC: functional canonical correlation analysis to evaluate covariance between nucleic acid sequencing datasets.</a> 
