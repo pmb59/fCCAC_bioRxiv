@@ -10,4 +10,4 @@
 
 Manuscript in preparation: 
 
-Madrigal et al. <a href="http://github.com/pmb59/fCCAC"> fCCAC: functional canonical correlation analysis to evaluate covariance between nucleic acid sequencing datasets.</a> 
+<a href="http://github.com/pmb59/fCCAC"> fCCAC: functional canonical correlation analysis to evaluate covariance between nucleic acid sequencing datasets.</a> 
