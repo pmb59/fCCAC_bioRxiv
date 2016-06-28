@@ -2,7 +2,7 @@
 <h4> functional Canonical Correlation Analysis to evaluate Covariance between nucleic acid sequencing datasets. </h4>
 
 
-A preprint can be found here: 
+A preprint has been uploaded to bioRxiv: 
 
 Madrigal P. 2016. <a href="http://biorxiv.org/content/early/2016/06/27/060780"> fCCAC: functional canonical correlation analysis to evaluate covariance between nucleic acid sequencing datasets.</a> bioRxiv doi: http://dx.doi.org/10.1101/060780 
 
